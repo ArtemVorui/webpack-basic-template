@@ -1,39 +1,74 @@
+const webpack = require('webpack');
 const path = require('path');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-module.exports = {
-  entry: {main: './src/js/index.js'},
+const config = {
+  entry: './src/index.js',
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: 'main.js'
+    filename: '[name].[contenthash].js',
   },
   module: {
     rules: [
       {
         test: /\.js$/,
+        use: 'babel-loader',
         exclude: /node_modules/,
-        use: {
-          loader: 'babel-loader'
-        }
+      },
+      {
+        test: /\.css$/,
+        use: [
+          'style-loader',
+          'css-loader',
+        ],
       },
       {
         test: /\.scss$/,
-        use: ExtractTextPlugin.extract(
+        use: [
+          'style-loader',
+          'css-loader',
+          'sass-loader',
+        ],
+      },
+      {
+        test: /\.svg$/,
+        use: 'file-loader',
+      },
+      {
+        test: /\.png$/,
+        use: [
           {
-            fallback: 'style-loader',
-            use: ['css-loader', 'sass-loader']
-          })
-      }
-    ]
+            loader: 'url-loader',
+            options: {
+              mimetype: 'image/png',
+            },
+          },
+        ],
+      },
+    ],
   },
   plugins: [
-    new ExtractTextPlugin({filename: 'style.css'}),
+    new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en/),
+    new LodashModuleReplacementPlugin,
     new HtmlWebpackPlugin({
+      template: require('html-webpack-template'),
       inject: false,
-      hash: true,
-      template: './src/index.html',
-      filename: 'index.html'
-    })
-  ]
+      appMountId: 'app',
+    }),
+  ],
+  optimization: {
+    runtimeChunk: 'single',
+    splitChunks: {
+      cacheGroups: {
+        vendor: {
+          test: /[\\\/]node_modules[\\\/]/,
+          name: 'vendors',
+          chunks: 'all',
+        },
+      },
+    },
+  },
 };
+
+module.exports = config;
