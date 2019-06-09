@@ -1,21 +1,14 @@
 {
   "name": "webpack-basic-template",
   "version": "0.1.0",
-  "description": "webpack-basic-template",
-  "main": "index.js",
+  "description": "",
+  "main": "app.js",
   "keywords": [],
-  "author": "",
+  "author": "Artem Vorui",
   "license": "ISC",
-  "cacheDirectories": [
-    "node_modules"
-  ],
   "scripts": {
-    "build": "npm run webpack:prod",
-    "start": "npm run webpack:dev",
-    "webpack:dev": "npm run webpack-dev-server -- --config webpack.dev.js --progress --profile --color --hot --inline",
-    "webpack:prod": "npm run webpack -- --config webpack.prod.js --progress --profile --color",
-    "webpack-dev-server": "node --max_old_space_size=4096 node_modules/webpack-dev-server/bin/webpack-dev-server.js",
-    "webpack": "node --max_old_space_size=4096 node_modules/webpack/bin/webpack.js"
+    "start": "webpack-dev-server --mode development --config webpack.config.js --color --open",
+    "build": "webpack --mode production --config webpack.config.js --color --compress"
   },
   "dependencies": {
     "bootstrap": "^4.3.1",
@@ -24,29 +17,27 @@
   },
   "devDependencies": {
     "@babel/core": "^7.4.5",
+    "@babel/preset-env": "^7.4.5",
+    "autoprefixer": "^9.6.0",
     "babel-loader": "^8.0.6",
-    "babel-preset-env": "^1.7.0",
-    "body-parser": "^1.19.0",
-    "clean-webpack-plugin": "^3.0.0",
-    "copy-webpack-plugin": "^5.0.3",
-    "cross-env": "^5.2.0",
     "css-loader": "^2.1.1",
-    "express": "^4.17.1",
-    "html-loader": "^0.5.5",
+    "file-loader": "^4.0.0",
     "html-webpack-plugin": "^3.2.0",
-    "husky": "^2.4.0",
-    "image-webpack-loader": "^5.0.0",
-    "install": "^0.12.2",
+    "html-webpack-template": "^6.2.0",
     "mini-css-extract-plugin": "^0.7.0",
     "node-sass": "^4.12.0",
-    "raw-loader": "^3.0.0",
+    "postcss-loader": "^3.0.0",
     "sass-loader": "^7.1.0",
     "style-loader": "^0.23.1",
-    "uglifyjs-webpack-plugin": "^2.1.3",
+    "svg-url-loader": "^2.3.2",
     "url-loader": "^2.0.0",
     "webpack": "^4.33.0",
-    "webpack-cli": "^3.3.2",
-    "webpack-dev-server": "^3.7.0",
-    "webpack-merge": "^4.2.1"
-  }
+    "webpack-cli": "^3.3.3",
+    "webpack-dev-server": "^3.7.1"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not ie <= 8"
+  ]
 }
