@@ -1,6 +1,20 @@
-# Webpack basic template
-Simple web apps template.
+# Webpack 4 app template
 
-**How to start:**
-* npm install
-* npm start
+#### First install dependencies:
+
+```sh
+npm install
+```
+
+#### To create a production build:
+
+```sh
+npm run build
+```
+
+#### Running dev-server:
+
+```sh
+npm run start
+```
+
