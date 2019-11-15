@@ -8,7 +8,12 @@ module.exports = {
   entry: './src/app.js',
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: 'bundle.[contenthash:8].js',
+    filename: process.env.production ? 'bundle.[chunkhash].js' : 'bundle.[hash].js',
+  },
+  optimization: {
+    splitChunks: {
+      chunks: 'all',
+    },
   },
   resolve: {
     alias: {
@@ -49,7 +54,9 @@ module.exports = {
           },
           {
             loader: 'postcss-loader',
-            options: { implementation: require('autoprefixer') },
+            options: {
+              implementation: require('autoprefixer')
+            },
           },
         ],
       },
@@ -96,9 +103,14 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
+      hash: true,
       title: 'My App',
       inject: false,
       template: require('html-webpack-template'),
+      devServer: 'http://localhost:8080',
+      meta: {
+        viewport: 'width=device-width, initial-scale=1, shrink-to-fit=no'
+      },
       links: [
         {
           href: '@images/favicon.ico',
@@ -113,7 +125,7 @@ module.exports = {
       },
     }),
     new MiniCssExtractPlugin({
-      filename: 'bundle.[contenthash:8].css',
+      filename: 'bundle.[chunkhash].css',
     }),
   ],
 };
