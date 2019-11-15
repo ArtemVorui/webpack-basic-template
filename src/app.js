@@ -1,6 +1,6 @@
 'use strict';
 
-import './stylesheets/scss/styles.scss';
+import './stylesheets/styles.scss';
 import './assets/images/favicon.ico';
 
 console.log('Hi everyone!');
