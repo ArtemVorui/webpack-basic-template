@@ -14,7 +14,7 @@ module.exports = {
     alias: {
       '@fonts': path.resolve(__dirname, './src/assets/fonts'),
       '@images': path.resolve(__dirname, './src/assets/images'),
-      '@scss': path.resolve(__dirname, './src/stylesheets/scss'),
+      '@scss': path.resolve(__dirname, './src/stylesheets'),
     },
   },
   module: {
@@ -34,6 +34,9 @@ module.exports = {
         use: [
           {
             loader: 'style-loader',
+            options: {
+              injectType: 'singletonStyleTag'
+            }
           },
           {
             loader: 'css-loader',
@@ -41,8 +44,7 @@ module.exports = {
           {
             loader: 'sass-loader',
             options: {
-              implementation: require('node-sass'),
-              outputPath: '@scss',
+              implementation: require('node-sass')
             },
           },
           {
