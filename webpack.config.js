@@ -8,8 +8,9 @@ module.exports = {
   entry: './src/app.js',
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: process.env.production ? 'bundle.[chunkhash].js' : 'bundle.[hash].js',
+    filename: 'bundle.[hash].js',
   },
+  devtool: 'source-map',
   optimization: {
     splitChunks: {
       chunks: 'all',
@@ -17,9 +18,9 @@ module.exports = {
   },
   resolve: {
     alias: {
-      '@fonts': path.resolve(__dirname, './src/assets/fonts'),
-      '@images': path.resolve(__dirname, './src/assets/images'),
-      '@scss': path.resolve(__dirname, './src/stylesheets'),
+      'fonts': path.resolve(__dirname, './src/assets/fonts'),
+      'images': path.resolve(__dirname, './src/assets/images'),
+      'scss': path.resolve(__dirname, './src/stylesheets'),
     },
   },
   module: {
@@ -45,11 +46,16 @@ module.exports = {
           },
           {
             loader: 'css-loader',
+            options: {
+              sourceMap: true,
+              url: false
+            },
           },
           {
             loader: 'sass-loader',
             options: {
-              implementation: require('node-sass')
+              implementation: require('node-sass'),
+              sourceMap: true
             },
           },
           {
@@ -67,7 +73,7 @@ module.exports = {
             loader: 'file-loader',
             options: {
               name: '[name].[ext]',
-              outputPath: '@images',
+              outputPath: 'images',
             },
           },
         ],
@@ -77,6 +83,10 @@ module.exports = {
         use: [
           {
             loader: 'url-loader',
+            options: {
+              name: '[name].[ext]',
+              outputPath: 'images',
+            }
           },
         ],
       },
@@ -84,7 +94,9 @@ module.exports = {
         test: /\.svg$/,
         loader: 'svg-url-loader',
         options: {
-          noquotes: true,
+          quotes: false,
+          name: '[name].[ext]',
+          outputPath: 'images',
         },
       },
       {
@@ -94,7 +106,7 @@ module.exports = {
             loader: 'file-loader',
             options: {
               name: '[name].[ext]',
-              outputPath: '@fonts',
+              outputPath: 'fonts',
             },
           },
         ],
@@ -113,7 +125,7 @@ module.exports = {
       },
       links: [
         {
-          href: '@images/favicon.ico',
+          href: 'images/favicon.ico',
           rel: 'shortcut icon',
           sizes: '16x16',
           type: 'image/x-icon',
@@ -125,7 +137,7 @@ module.exports = {
       },
     }),
     new MiniCssExtractPlugin({
-      filename: 'bundle.[chunkhash].css',
+      filename: 'main.[hash].css',
     }),
   ],
 };
